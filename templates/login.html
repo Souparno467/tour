@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="form-container">
+    <h2 class="form-heading">Login to Your Account</h2>
+    <form action="{{ url_for('auth.login') }}" method="POST">
+        {{ form.hidden_tag() }}
+        <div class="input-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email" required>
+        </div>
+        <div class="input-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Enter your password" required>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn bounce">Login</button>
+        </div>
+        <p>Don't have an account? <a href="{{ url_for('auth.register') }}">Register here</a></p>
+    </form>
+</div>
+{% endblock %}

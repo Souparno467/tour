@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="dashboard-container">
+    <h2>Your Travel Plans</h2>
+
+    {% if trips %}
+        <ul class="trip-list">
+            {% for trip in trips %}
+                <li>
+                    <strong>{{ trip.destination }}</strong>
+                    <p>Itinerary: {{ trip.itinerary }}</p>
+
+                    <form action="{{ url_for('itinerary_pdf', destination=trip.destination) }}" method="get">
+                        <button type="submit" class="btn pdf-download">Download PDF</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No trips booked yet. Start planning now!</p>
+    {% endif %}
+
+    <div class="recommendation-section">
+        <p>Want a new travel recommendation and itinerary?</p>
+        <a href="{{ url_for('recommend') }}" class="btn bounce">Get Recommendations</a>
+    </div>
+</div>
+{% endblock %}

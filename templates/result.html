@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    .result-container {
+        max-width: 900px;
+        margin: auto;
+        padding: 25px;
+        font-family: "Arial", sans-serif; /* ✅ Professional font */
+    }
+
+    .generated-result {
+        background-color: black;
+        color: white;
+        padding: 25px;
+        border-radius: 10px;
+        font-size: 18px;
+        word-wrap: break-word;
+        white-space: pre-line; /* ✅ Ensures AI response respects new lines */
+        line-height: 1.6; /* ✅ Improves spacing for readability */
+    }
+
+    .error-message {
+        color: red;
+        font-size: 18px;
+        margin-top: 12px;
+        padding: 15px;
+        border-radius: 6px;
+        background-color: rgba(255, 0, 0, 0.1);
+        font-weight: bold;
+    }
+
+    .btn.pdf-download {
+        margin-top: 20px;
+        font-size: 18px;
+        padding: 12px;
+        background-color: blue;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 6px;
+        font-weight: bold;
+    }
+
+    .btn.pdf-download:hover {
+        background-color: darkblue;
+    }
+</style>
+
+<div class="result-container">
+    <h2 style="color: blue; font-size: 24px;">Your AI-Powered Travel Itinerary</h2>
+
+    {% if itinerary and itinerary.strip() %}
+        <div class="generated-result">
+            <h3 style="font-size: 22px;">🌍 AI-Suggested Travel Destination:</h3>
+            <p style="font-size: 20px;"><strong>📍 Selected Destination Based on Your Preferences</strong></p>
+
+            <h3 style="font-size: 22px;">📆 Detailed {{ days }}-Day Travel Itinerary:</h3>
+            <div class="itinerary-box">
+                <p style="font-size: 18px;">{{ itinerary | safe }}</p>
+            </div>
+
+            <!-- ✅ Fixed: Ensures data is sent via POST -->
+            <form action="{{ url_for('itinerary_pdf') }}" method="post">
+                <input type="hidden" name="itinerary" value="{{ itinerary }}">
+                <button type="submit" class="btn pdf-download">📄 Download Travel Plan PDF</button>
+            </form>
+
+        </div>
+    {% else %}
+        <div class="error-message">
+            <strong>⚠️ No itinerary available.</strong> Try adjusting your inputs and resubmitting your request.
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
